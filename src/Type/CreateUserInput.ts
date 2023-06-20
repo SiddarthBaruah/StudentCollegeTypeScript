@@ -12,4 +12,16 @@ class InputUser {
   city: string;
 }
 
-export { InputUser };
+@InputType()
+class UpdateUser {
+  @Field({ nullable: true })
+  name: string;
+
+  @Field({ nullable: true })
+  dept: string;
+
+  @Field({ nullable: true })
+  city: string;
+}
+
+export { InputUser, UpdateUser };

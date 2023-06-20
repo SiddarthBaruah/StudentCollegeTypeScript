@@ -1,4 +1,5 @@
-import { InputUser } from "../Type/CreateUserInput";
+// import { IsNull } from "typeorm";
+import { InputUser, UpdateUser } from "../Type/CreateUserInput";
 import { User } from "../entities/user";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 
@@ -44,7 +45,7 @@ export class Hello {
   @Mutation(() => User)
   async updateUser(
     @Arg("id") id: String,
-    @Arg("inputUser") inputUser: InputUser
+    @Arg("inputUser") inputUser: UpdateUser
   ) {
     let user = await User.findOne({
       where: { id: id },
@@ -52,9 +53,16 @@ export class Hello {
     if (!user) {
       throw new Error("User not found!");
     }
-    user.city = inputUser.city;
-    user.dept = inputUser.dept;
-    user.name = inputUser.name;
+    if (inputUser.city != null) {
+      user.city = inputUser.city;
+    }
+    if (inputUser.dept != null) {
+      user.dept = inputUser.dept;
+    }
+    if (inputUser.name != null) {
+      user.name = inputUser.name;
+    }
+
     await user.save();
     return user;
   }
